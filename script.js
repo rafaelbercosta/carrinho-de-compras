@@ -50,6 +50,20 @@ const getProducts = async (product) => {
   .appendChild(createProductItemElement(element)));
 };
 
-getProducts('computador');
+const setProductToCart = async (product) => {
+  const useSku = getSkuFromProductItem(product.target.parentNode);
+  const useFetchItem = await fetchItem(useSku);
+  const createLi = createCartItemElement(useFetchItem);
+  const getCartItem = document.querySelector('.cart__items');
 
-window.onload = () => { };
+  getCartItem.appendChild(createLi);
+};
+function useBtnCart() {
+  const getBtn = document.querySelectorAll('.item__add');
+  getBtn.forEach((btn) => btn.addEventListener('click', setProductToCart));
+}
+
+window.onload = async () => {
+  await getProducts('computador');
+useBtnCart();
+};
