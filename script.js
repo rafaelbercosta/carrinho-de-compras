@@ -58,12 +58,21 @@ const setProductToCart = async (product) => {
 
   getCartItem.appendChild(createLi);
 };
-function useBtnCart() {
+function btnCart() {
   const getBtn = document.querySelectorAll('.item__add');
   getBtn.forEach((btn) => btn.addEventListener('click', setProductToCart));
 }
 
+const removeCartItem = () => {
+  const btnRemove = document.querySelector('.empty-cart');
+  btnRemove.addEventListener('click', () => {
+    const itemsCart = document.querySelectorAll('.cart__item');
+    itemsCart.forEach((item) => item.remove());
+  });
+};
+
 window.onload = async () => {
   await getProducts('computador');
-useBtnCart();
+  btnCart();
+  removeCartItem();
 };
