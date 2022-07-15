@@ -70,9 +70,18 @@ const removeCartItem = () => {
     itemsCart.forEach((item) => item.remove());
   });
 };
+async function awaitText() {
+  const section = document.querySelector('.items');
+  const div = document.createElement('div');
+  div.className = 'loading';
+  div.innerText = 'carregando...';
+  section.appendChild(div);
+  await getProducts('computador');
+  div.remove();
+}
 
 window.onload = async () => {
-  await getProducts('computador');
+  await awaitText();
   btnCart();
   removeCartItem();
 };
