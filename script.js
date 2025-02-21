@@ -1,4 +1,3 @@
-const items = document.querySelector('.items');
 const createProductImageElement = (imageSource) => {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -27,14 +26,32 @@ const createProductItemElement = ({ sku, name, image }) => {
 
 const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').innerText;
 
+const updateCartTotal = () => {
+  let total = 0;
+  const cartItems = document.querySelectorAll('.cart__item');
+
+  cartItems.forEach((item) => {
+    const price = parseFloat(item.dataset.price);
+    console.log('price:', price);
+
+    total += price;
+    console.log(item.dataset.price);
+  });
+  document.querySelector('.cart-total').innerText = total.toFixed(2);
+};
 const cartItemClickListener = (event) => {
-  event.target.remove();
+  event.target.closest('.cart__item').remove();
+  updateCartTotal();
 };
 
-const createCartItemElement = ({ id: sku, title: name, price: salePrice }) => {
+const createCartItemElement = ({ id: sku, title: name, price: salePrice, thumbnail: image }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.dataset.price = salePrice; // Adicionando o preço como dataset
+  li.innerHTML = `
+    <img src="${image}" class="cart__item__image" alt="${name}">
+    SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}
+  `;
   li.addEventListener('click', cartItemClickListener);
   return li;
 };
@@ -49,25 +66,35 @@ const getProducts = async (product) => {
   products.forEach((element) => document.querySelector('.items')
   .appendChild(createProductItemElement(element)));
 };
-
 const setProductToCart = async (product) => {
   const useSku = getSkuFromProductItem(product.target.parentNode);
   const useFetchItem = await fetchItem(useSku);
+  console.log('Dados do Produto:', useFetchItem);
   const createLi = createCartItemElement(useFetchItem);
   const getCartItem = document.querySelector('.cart__items');
 
   getCartItem.appendChild(createLi);
+  updateCartTotal();
 };
 function btnCart() {
   const getBtn = document.querySelectorAll('.item__add');
   getBtn.forEach((btn) => btn.addEventListener('click', setProductToCart));
+  updateCartTotal();
 }
 
 const removeCartItem = () => {
   const btnRemove = document.querySelector('.empty-cart');
   btnRemove.addEventListener('click', () => {
-    const itemsCart = document.querySelectorAll('.cart__item');
-    itemsCart.forEach((item) => item.remove());
+    const cartItemsContainer = document.querySelector('.cart__items');
+
+    while (cartItemsContainer.firstChild) {
+      cartItemsContainer.removeChild(cartItemsContainer.firstChild);
+    }
+
+    const totalContainer = document.querySelector('.cart-total');
+    totalContainer.innerText = 'Total: $0.00';
+
+    btnCart();
   });
 };
 async function awaitText() {

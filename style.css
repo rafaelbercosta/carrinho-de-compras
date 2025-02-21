@@ -11,7 +11,7 @@ body {
 
 .header {
   position: relative;
-  background-color: rgb(3, 52, 45);
+  background-color: rgb(170, 54, 54);
   display: flex;
   align-items: center;
   width: 100%;
@@ -32,7 +32,7 @@ body {
   position: relative;
   display: flex;
   align-items: center;
-  background-color: rgb(10, 118, 79);
+  background-color: black;
   width: 40%;
   height: 100%;
   margin-left: 30px;
@@ -49,7 +49,7 @@ body {
   right: 61.5%;
   width: 39.5%;
   height: 15px;
-  background: rgb(10, 118, 79);
+  background: black;
   transform: skew(-45deg);
   z-index: 0;
 }
@@ -61,7 +61,7 @@ body {
   right: 61.5%;
   width: 39.5%;
   height: 15px;
-  background: rgb(10, 118, 79);
+  background: black;
   transform: skew(45deg);
   z-index: 0;
 }
@@ -119,13 +119,22 @@ body {
 }
 
 .item .item__add {
-  background-color: rgb(5, 52, 219);
+  background-color: rgb(131, 39, 39);
   border: 0;
   cursor: pointer;
   margin: 0;
   padding: 10px;
   color: white;
+  transition: background-color 0.3s ease;
 }
+
+
+/* Efeito de hover (quando o mouse passa por cima) */
+.item__add:hover {
+  background-color: #000000;
+}
+
+
 
 .cart {
   display: flex;
@@ -144,6 +153,56 @@ body {
   width: 170px;
   height: 35px;
   margin: 0 auto;
-  border: 2px solid rgb(5, 52, 219);
+  border: 2px solid rgb(0, 0, 0);
   background-color: rgb(249, 249, 246);
+  transition: background-color 0.3s ease; /* Transição suave para a cor */
+}
+
+.empty-cart:hover {
+  background-color: rgb(142, 51, 51); /* Cor ao passar o mouse */
+}
+.cart__item {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Espaço entre a imagem e a descrição */
+  font-size: 16px;
+  line-height: 1.4;
+  margin-bottom: 15px;
+}
+
+.cart__item img {
+  width: 50px; /* Imagem menor no carrinho */
+  height: top;
+  margin-right: 10px;
+}
+
+@media (max-width: 600px) {
+  .item {
+    flex: 0 0 calc(50% - 10px); /* 2 itens lado a lado */
+  }
+  .cart__item {
+    flex-direction: column;
+    font-size: 12px;   /* Diminui o tamanho da fonte */
+    line-height: 1.2;
+      /* Ajusta o espaçamento */
+  }
+  .cart__item img {
+    width: 40px; /* Imagem ainda menor em telas menores */
+  }
+}
+
+/* Ajuste para telas muito pequenas */
+@media (max-width: 400px) {
+  .item {
+    flex: 0 0 100%; /* 1 item por linha */
+  }
+   .cart__item {
+    flex-direction: column;
+    font-size: 12px;   /* Diminui o tamanho da fonte */
+    line-height: 1.2;  /* Ajusta o espaçamento */
+  }
+  .cart__item img {
+    width: 40px; /* Imagem ainda menor em telas menores */
+  }
+
 }
